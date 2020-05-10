@@ -1,0 +1,12 @@
+You have been given a 1D lidar sensor data.
+Go through its datasheet provided within this folder
+Especially the "Serial port data communication" part
+
+In the file data.bin
+you have been given a large set of binary stream received from the lidar.
+Each data stream has been seperated by a \x0A (newline byte)
+Extract the distance and signal info and plot a graph for both
+
+This is a practically obtained data set
+so discard any impractical values which may have been recorded
+refer the datasheet to know what impractical means for this lidar
