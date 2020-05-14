@@ -1,4 +1,4 @@
-# sra-eklavya-tasks-solutions  
+# Eklavya 2020 Tasks Solutions    
 This repo contains all the solutions for the problems given to first years in [Eklavya 2020](https://sra-vjti.github.io/eklavya2020-assignments/)
 hosted by [SRA VJTI](http://sra.vjti.info/) in the period of lockdown due to COVID-19.  
 
@@ -119,7 +119,7 @@ Strength
 Distance  
 ![distance_1](https://github.com/saharshleo/sra-eklavya-tasks-solutions/blob/master/Task3/data_1_distance.png)  
 
-Strength
+Strength  
 ![signal_1](https://github.com/saharshleo/sra-eklavya-tasks-solutions/blob/master/Task3/data_1_signal.png)  
     
 ## Task 4  
