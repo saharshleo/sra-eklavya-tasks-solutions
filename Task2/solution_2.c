@@ -14,13 +14,13 @@ void print_readings(double *readings){
     printf("%lf %lf %lf %lf\n", readings[0], readings[1], readings[2], readings[3]);
 }
 
-int assign_direction(enum direction current, int turn){
+int assign_direction(enum direction current, int turn_type){
     enum direction future;
-    if(turn == RIGHT){
+    if(turn_type == RIGHT){
         future = (current + 1)%4;
     }
 
-    else if(turn == LEFT){
+    else if(turn_type == LEFT){
         future = (current - 1)%4;
     }
     return future;
@@ -63,7 +63,8 @@ int main(){
 
     double readings[4];
     int node_count = 0;
-    int turn_count = 0;
+    int left_turn_count = 0;
+    int right_turn_count = 0;
     enum direction current_direction = north;
 
     int line_count = 0;
@@ -83,8 +84,7 @@ int main(){
                 
                 line_count++;
                 
-                if(readings[0]<WHITE || readings[3]<WHITE){
-                    // printf("%d\n", line_count);
+                if(readings[0]<WHITE && readings[3]<WHITE){                    
                     printf("NODE\n");
                     node_count++;
                     break;
@@ -105,9 +105,8 @@ int main(){
                
                 // Don't count till bot takes right turn
                 if(readings[0]<BLACK && readings[1]>WHITE && readings[2]>WHITE && readings[3]<BLACK){
-                    // print_readings(readings);
                     printf("RIGHT TURN\n");
-                    turn_count++;
+                    right_turn_count++;
                     current_direction = assign_direction(current_direction, RIGHT);
                     break;
                 }
@@ -132,9 +131,8 @@ int main(){
                 
                 // Don't count till bot takes left turn
                 if(readings[0]<BLACK && readings[1]>WHITE && readings[2]>WHITE && readings[3]<BLACK){
-                    // print_readings(readings);
                     printf("LEFT TURN\n");
-                    turn_count++;
+                    left_turn_count++;
                     current_direction = assign_direction(current_direction, LEFT);
                     break;
                 }
@@ -149,7 +147,8 @@ int main(){
     }
 
     printf("Number of nodes encountered are: %d!!\n", node_count);
-    printf("Number of turns encountered are: %d!!\n", turn_count);
+    printf("Number of left turns encountered are: %d!!\n", left_turn_count);
+    printf("Number of right turns encountered are: %d!!\n", right_turn_count);
     printf("You are now facing: %s!!\n", return_direction(current_direction));
 
     fclose(filepointer);

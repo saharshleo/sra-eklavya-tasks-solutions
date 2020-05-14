@@ -14,13 +14,13 @@ void print_readings(double *readings){
     printf("%lf %lf %lf %lf %lf\n", readings[0], readings[1], readings[2], readings[3], readings[4]);
 }
 
-int assign_direction(enum direction current, int turn){
+int assign_direction(enum direction current, int turn_type){
     enum direction future;
-    if(turn == RIGHT){
+    if(turn_type == RIGHT){
         future = (current + 1)%4;
     }
 
-    else if(turn == LEFT){
+    else if(turn_type == LEFT){
         future = (current - 1)%4;
     }
     return future;
@@ -116,7 +116,7 @@ int main(){
                 if(readings[0]<BLACK && readings[1]>WHITE && readings[2]>WHITE && readings[3]<BLACK && readings[4]>WHITE){
                     // print_readings(previous_readings);
                     current_direction = assign_direction(current_direction, LEFT);
-                    printf("LEFT TURN ---- %s ---- %s\n", type_of_junction(previous_readings), return_direction(current_direction));
+                    printf("%-10s\t%-18s\t%-10s\n", "LEFT TURN", type_of_junction(previous_readings), return_direction(current_direction));
                     break;
                 }
 
@@ -136,7 +136,7 @@ int main(){
                 line_count++;
                 if(readings[0]<WHITE && readings[3]<WHITE){
                     // printf("%d\n", line_count);
-                    printf("STRAIGHT ---- %s ---- %s\n", type_of_junction(previous_readings), return_direction(current_direction));
+                    printf("%-10s\t%-18s\t%-10s\n", "STRAIGHT", type_of_junction(previous_readings), return_direction(current_direction));
                     break;
                 }
 
@@ -161,9 +161,9 @@ int main(){
                 // Don't count till bot takes right turn
                 if(readings[0]<BLACK && readings[1]>WHITE && readings[2]>WHITE && readings[3]<BLACK && readings[4]>WHITE){
                     // print_readings(previous_readings);
-                    printf("RIGHT TURN ---- %s ---- %s\n", type_of_junction(previous_readings), return_direction(current_direction));
-
                     current_direction = assign_direction(current_direction, RIGHT);
+                    printf("%-10s\t%-18s\t%-10s\n", "RIGHT TURN", type_of_junction(previous_readings), return_direction(current_direction));
+
                     break;
                 }
 
@@ -183,7 +183,7 @@ int main(){
             // print_readings(readings);
             // printf("%d\n", line_count);
 
-            printf("STOP ---- %s ---- %s\n", type_of_junction(readings), return_direction(current_direction));
+            printf("%-10s\t%-18s\t%-10s\n", "STOP", type_of_junction(readings), return_direction(current_direction));
             break;
         }
 
