@@ -1,31 +1,35 @@
 #include<stdio.h>
 
-#define BLACK 0.4
-#define WHITE 0.7
+#define BLACK 0.4   // THRESHOLD FOR BLACK
+#define WHITE 0.7   // THRESHOLD FOR WHITE
 
 #define RIGHT 1
 #define LEFT 2
 
+// ENCODING DIRECTION AS PER PROBLEM STATEMENT
 enum direction{
     north, east, south, west
 };
 
+// PRINT READINGS TO CONSOLE
 void print_readings(double *readings){
     printf("%lf %lf %lf %lf %lf\n", readings[0], readings[1], readings[2], readings[3], readings[4]);
 }
 
+// DECIDE FUTURE DIRECTION BASED ON CURRENT DIRECTION AND TYPE OF TURN
 int assign_direction(enum direction current, int turn_type){
     enum direction future;
     if(turn_type == RIGHT){
-        future = (current + 1)%4;
+        future = (current + 1)%4;   // %4 FOR RESTRICTING VALUES TO 0 AND 3
     }
 
     else if(turn_type == LEFT){
-        future = (current - 1)%4;
+        future = (current - 1)%4;   // %4 FOR RESTRICTING VALUES TO 0 AND 3
     }
     return future;
 }
 
+// RETURN DIRECTION NAME (STRING) BASED ON ENCODING (INTEGER)
 const char *return_direction(enum direction current){
     switch (current){
         case north:
@@ -45,12 +49,14 @@ const char *return_direction(enum direction current){
     }
 }
 
+// FOR COPYING READINGS TO PREVIOUS READINGS
 void copy_readings(double *readings, double *prev_readings){
     for(int i = 0; i < 5; i++){
         prev_readings[i] = readings[i];
     }
 }
 
+// DETECTING JUNCTION TYPE
 const char *type_of_junction(double *readings){
     
     if(readings[0]>WHITE && readings[1]>WHITE && readings[2]>WHITE && readings[3]>WHITE && readings[4]>WHITE){
@@ -103,18 +109,19 @@ int main(){
          
         line_count++;
 
-        // Turn left
+        // TURN LEFT
         if(readings[0]>WHITE && readings[1]>WHITE && readings[2]>WHITE){
             
-            // Debug
+            // DEBUGGING
             // print_readings(readings);
-            // printf("%d\n", line_count);
+            // printf("Line: %d\n", line_count);
 
+            // CURRENTLY ON A JUNCTION HAVING LEFT TURN
             while(fscanf(filepointer, "%lf %lf %lf %lf %lf", &readings[0], &readings[1], &readings[2], &readings[3], &readings[4]) != EOF){
                 line_count++;
-                // Don't count till bot takes left turn
+                
+                // END OF LEFT TURN
                 if(readings[0]<BLACK && readings[1]>WHITE && readings[2]>WHITE && readings[3]<BLACK && readings[4]>WHITE){
-                    // print_readings(previous_readings);
                     current_direction = assign_direction(current_direction, LEFT);
                     printf("%-10s\t%-18s\t%-10s\n", "LEFT TURN", type_of_junction(previous_readings), return_direction(current_direction));
                     break;
@@ -124,23 +131,24 @@ int main(){
             }
         }
 
-        // Straight + Right
+        // STRAIGHT + RIGHT
         else if(readings[0]<BLACK && readings[1]>WHITE && readings[2]>WHITE && readings[3]>WHITE && readings[4]>WHITE){
             
-            // Debug
+            // DEBUGGING
             // print_readings(readings);
-            // printf("%d\n", line_count);
+            // printf("Line: %d\n", line_count);
 
-            // Don't count till bot comes out of the node
+            // CURRENTLY ON A JUNCTION WITH PATH FORWARD AND RIGHTWARDS
             while(fscanf(filepointer, "%lf %lf %lf %lf %lf", &readings[0], &readings[1], &readings[2], &readings[3], &readings[4]) != EOF){
                 line_count++;
+                
+                // END OF JUNCTION
                 if(readings[0]<WHITE && readings[3]<WHITE){
-                    // printf("%d\n", line_count);
                     printf("%-10s\t%-18s\t%-10s\n", "STRAIGHT", type_of_junction(previous_readings), return_direction(current_direction));
                     break;
                 }
 
-                // Check if its a node
+                // CHECK IF IT WAS A NODE
                 else if(readings[0]>WHITE && readings[1]>WHITE && readings[2]>WHITE && readings[3]>WHITE){
                     break;
                 }
@@ -149,25 +157,25 @@ int main(){
             }
         }
 
-        // Turn right
+        // TURN RIGHT
         else if((readings[1]>WHITE && readings[2]>WHITE && readings[3]>WHITE) || (readings[3]>WHITE && readings[2]>WHITE && readings[4]<WHITE)){
             
-            // Debug
+            // DEBUGGING
             // print_readings(readings);
-            // printf("%d\n", line_count);
+            // printf("Line: %d\n", line_count);
 
+            // CURRENTLY ON A JUNCTION HAVING RIGHT TURN
             while(fscanf(filepointer, "%lf %lf %lf %lf %lf", &readings[0], &readings[1], &readings[2], &readings[3], &readings[4]) != EOF){
                 line_count++;
-                // Don't count till bot takes right turn
+                
+                // END OF RIGHT TURN
                 if(readings[0]<BLACK && readings[1]>WHITE && readings[2]>WHITE && readings[3]<BLACK && readings[4]>WHITE){
-                    // print_readings(previous_readings);
                     current_direction = assign_direction(current_direction, RIGHT);
                     printf("%-10s\t%-18s\t%-10s\n", "RIGHT TURN", type_of_junction(previous_readings), return_direction(current_direction));
-
                     break;
                 }
 
-                // Check if its a node
+                // CHECK IF IT WAS A NODE
                 else if(readings[0]>WHITE && readings[1]>WHITE && readings[2]>WHITE && readings[3]>WHITE){
                     break;
                 }
@@ -176,12 +184,12 @@ int main(){
             }
         }
 
-        // Dead end
+        // DEAD END
         else if(readings[0]<BLACK && readings[1]<BLACK && readings[2]<BLACK && readings[3]<BLACK && readings[4]<BLACK){
 
-            // Debug
+            // DEBUGGING
             // print_readings(readings);
-            // printf("%d\n", line_count);
+            // printf("Line: %d\n", line_count);
 
             printf("%-10s\t%-18s\t%-10s\n", "STOP", type_of_junction(readings), return_direction(current_direction));
             break;

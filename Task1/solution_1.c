@@ -1,8 +1,9 @@
 #include<stdio.h>
 
-#define BLACK 0.4
-#define WHITE 0.7
+#define BLACK 0.4   // THRESHOLD FOR BLACK
+#define WHITE 0.7   // THRESHOLD FOR WHITE
 
+// PRINT READINGS TO CONSOLE
 void print_readings(double *readings){
     printf("%lf %lf %lf %lf\n", readings[0], readings[1], readings[2], readings[3]);
 }
@@ -24,8 +25,8 @@ int main(){
     }
 
     double readings[4];
-    int node_count = 0;
-    int line_count = 0;
+    int node_count = 0; // NUMBER OF NODES
+    int line_count = 0; // LINE NUMBER FOR DEBUGGING
    
     while(fscanf(filepointer, "%lf %lf %lf %lf", &readings[0], &readings[1], &readings[2], &readings[3]) != EOF){
         
@@ -33,13 +34,15 @@ int main(){
 
         if(readings[0]>WHITE && readings[1]>WHITE && readings[2]>WHITE && readings[3]>WHITE){
             
-            // Debugging
+            // DEBUGGING
             // print_readings(readings);
             // printf("Line: %d\n", line_count)
             
-            // Don't count till bot comes out of the node
+            // CURRENTLY ON A NODE
             while(fscanf(filepointer, "%lf %lf %lf %lf", &readings[0], &readings[1], &readings[2], &readings[3]) != EOF){
                 line_count++;
+
+                // END OF NODE
                 if(readings[0]<WHITE && readings[3]<WHITE){
                     node_count++;
                     break;

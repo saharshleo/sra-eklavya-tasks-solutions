@@ -1,31 +1,35 @@
 #include<stdio.h>
 
-#define BLACK 0.4
-#define WHITE 0.7
+#define BLACK 0.4   // THRESHOLD FOR BLACK
+#define WHITE 0.7   // THRESHOLD FOR WHITE
 
 #define RIGHT 1
 #define LEFT 2
 
+// ENCODING DIRECTION AS PER PROBLEM STATEMENT
 enum direction{
     north, east, south, west
 };
 
+// PRINT READINGS TO CONSOLE
 void print_readings(double *readings){
     printf("%lf %lf %lf %lf\n", readings[0], readings[1], readings[2], readings[3]);
 }
 
+// DECIDE FUTURE DIRECTION BASED ON CURRENT DIRECTION AND TYPE OF TURN
 int assign_direction(enum direction current, int turn_type){
     enum direction future;
     if(turn_type == RIGHT){
-        future = (current + 1)%4;
+        future = (current + 1)%4;   // %4 FOR RESTRICTING VALUES TO 0 AND 3
     }
 
     else if(turn_type == LEFT){
-        future = (current - 1)%4;
+        future = (current - 1)%4;   // %4 FOR RESTRICTING VALUES TO 0 AND 3
     }
     return future;
 }
 
+// RETURN DIRECTION NAME (STRING) BASED ON ENCODING (INTEGER)
 const char *return_direction(enum direction current){
     switch (current){
         case north:
@@ -73,17 +77,19 @@ int main(){
          
         line_count++;
 
-        // Node
+        // NODE
         if(readings[0]>WHITE && readings[1]>WHITE && readings[2]>WHITE && readings[3]>WHITE){
             
-            // Debug
+            // DEBUGGING
             // print_readings(readings);
+            // printf("Line: %d\n", line_count);
 
-            // Don't count till bot comes out of the node
+            // CURRENTLY ON A NODE
             while(fscanf(filepointer, "%lf %lf %lf %lf", &readings[0], &readings[1], &readings[2], &readings[3]) != EOF){
                 
                 line_count++;
                 
+                // END OF NODE
                 if(readings[0]<WHITE && readings[3]<WHITE){                    
                     printf("NODE\n");
                     node_count++;
@@ -92,18 +98,19 @@ int main(){
             }
         }
 
-        // Turn right
+        // TURN RIGHT
         else if(readings[1]>WHITE && readings[2]>WHITE && readings[3]>WHITE){
             
-            // Debug
+            // DEBUGGING
             // print_readings(readings);
-            // printf("%d\n", line_count);
+            // printf("Line: %d\n", line_count);
 
+            // CURRENTLY ON RIGHT TURN
             while(fscanf(filepointer, "%lf %lf %lf %lf", &readings[0], &readings[1], &readings[2], &readings[3]) != EOF){
                 
                 line_count++;
                
-                // Don't count till bot takes right turn
+                // END OF RIGHT TURN
                 if(readings[0]<BLACK && readings[1]>WHITE && readings[2]>WHITE && readings[3]<BLACK){
                     printf("RIGHT TURN\n");
                     right_turn_count++;
@@ -111,25 +118,26 @@ int main(){
                     break;
                 }
 
-                // Check if its a node
+                // CHECK IF IT WAS A NODE
                 else if(readings[0]>WHITE && readings[1]>WHITE && readings[2]>WHITE && readings[3]>WHITE){
                     break;
                 }
             }
         }
     
-        // Turn left
+        // TURN LEFT
         else if(readings[0]>WHITE && readings[1]>WHITE && readings[2]>WHITE){
             
-            // Debug
+            // DEBUGGING
             // print_readings(readings);
-            // printf("%d\n", line_count);
+            // printf("Line: %d\n", line_count);
 
+            // CURRENTLY ON LEFT TURN
             while(fscanf(filepointer, "%lf %lf %lf %lf", &readings[0], &readings[1], &readings[2], &readings[3]) != EOF){
                 
                 line_count++;
                 
-                // Don't count till bot takes left turn
+                // END OF LEFT TURN
                 if(readings[0]<BLACK && readings[1]>WHITE && readings[2]>WHITE && readings[3]<BLACK){
                     printf("LEFT TURN\n");
                     left_turn_count++;
@@ -137,7 +145,7 @@ int main(){
                     break;
                 }
 
-                // Check if its a node
+                // CHECK IF IT WAS A NODE
                 else if(readings[0]>WHITE && readings[1]>WHITE && readings[2]>WHITE && readings[3]>WHITE){
                     break;
                 }
