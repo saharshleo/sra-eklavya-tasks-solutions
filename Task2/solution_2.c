@@ -3,8 +3,8 @@
 #define BLACK 0.4   // THRESHOLD FOR BLACK
 #define WHITE 0.7   // THRESHOLD FOR WHITE
 
-#define RIGHT 1
-#define LEFT 2
+// #define RIGHT 1
+// #define LEFT 2
 
 // ENCODING DIRECTION AS PER PROBLEM STATEMENT
 enum direction{
@@ -17,13 +17,13 @@ void print_readings(double *readings){
 }
 
 // DECIDE FUTURE DIRECTION BASED ON CURRENT DIRECTION AND TYPE OF TURN
-int assign_direction(enum direction current, int turn_type){
+int assign_direction(enum direction current, char *turn_type){
     enum direction future;
-    if(turn_type == RIGHT){
+    if(turn_type == "RIGHT"){
         future = (current + 1)%4;   // %4 FOR RESTRICTING VALUES TO 0 AND 3
     }
 
-    else if(turn_type == LEFT){
+    else if(turn_type == "LEFT"){
         future = (current - 1)%4;   // %4 FOR RESTRICTING VALUES TO 0 AND 3
     }
     return future;
@@ -114,7 +114,7 @@ int main(){
                 if(readings[0]<BLACK && readings[1]>WHITE && readings[2]>WHITE && readings[3]<BLACK){
                     printf("RIGHT TURN\n");
                     right_turn_count++;
-                    current_direction = assign_direction(current_direction, RIGHT);
+                    current_direction = assign_direction(current_direction, "RIGHT");
                     break;
                 }
 
@@ -141,7 +141,7 @@ int main(){
                 if(readings[0]<BLACK && readings[1]>WHITE && readings[2]>WHITE && readings[3]<BLACK){
                     printf("LEFT TURN\n");
                     left_turn_count++;
-                    current_direction = assign_direction(current_direction, LEFT);
+                    current_direction = assign_direction(current_direction, "LEFT");
                     break;
                 }
 
